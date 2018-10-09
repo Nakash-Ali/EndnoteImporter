@@ -1,2 +1,7 @@
 Python_Imp/.idea/
+Python_Imp/output/
+Python_Imp/setup.py
+Python_Imp/errors/
+Python_Imp/build/
+Python_Imp/venv/
 .DS_Store
