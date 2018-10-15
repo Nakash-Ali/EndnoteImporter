@@ -75,7 +75,5 @@ def main():
 
             print(count)
 
-    #return tag_ref_type(file.readline())
-
 
 main()

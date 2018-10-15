@@ -1,11 +1,11 @@
 Book Section:
-Author. “Title.”|. “Chapter.”| In Book Title|. Edited by Editor|. Translated by Translator|. “Translated Title.”|. Series Title| Series Volume|. Edition ed.|. Number of Volumes vols.|. Vol. Volume.|, Pages|. Place Published:| Publisher|, Year|. Reprint, Reprint Edition|. `Original publication,` Original Publication|.
+Author.Â â€œTitle.â€|.Â â€œChapter.â€|Â InÂ <i>Book Title</i>|.Â EditedÂ byÂ Editor|.Â TranslatedÂ byÂ Translator|.Â â€œTranslated Title.â€|.Â Series Title|Â Series Volume|.Â EditionÂ ed.|.Â Number of VolumesÂ vols.|.Â Vol.Â Volume.|,Â Pages|.Â Place Published:|Â Publisher|,Â Year|.Â Reprint,Â Reprint Edition|.Â `Original publication,`Â Original Publication|.
 
 Book:
-Author. Title Prefix Title|. Edited by Editor|. Translated by Translator|. Translated Title|. Series Title| Series Volume|. Edition ed.|. Number of Volumes vols.|. Vol. Volume|. Place Published:| Publisher|, Date|, Year|. `doi:`DOI|. Reprint, Reprint Edition|. `Original publication,` Original Publication|.
+Author.Â <i>Title</i> PrefixÂ <i>Title</i>|.Â EditedÂ byÂ Editor|.Â TranslatedÂ byÂ Translator|.Â <i>Translated Title</i>|.Â Series Title|Â Series Volume|.Â EditionÂ ed.|.Â Number of VolumesÂ vols.|.Â Vol.Â Volume|.Â Place Published:|Â Publisher|,Â Date|,Â Year|.Â `doi:`DOI|.Â Reprint,Â Reprint Edition|.Â `Original publication,`Â Original Publication|.
 
 JA:
-Author. “Title.”|. Translated Title|. `Review of` Reviewed Item|. Journal Volume|, no. Issue| (|Date |Year|)|: Pages|.
+Author.Â â€œTitle.â€|.Â Translated Title|.Â `Review of`Â Reviewed Item|.Â <i>Journal</i> Volume|,Â no.Â Issue|Â (|DateÂ |Year|)|:Â Pages|.
 
 Thesis:
-Author. “Title.”| Thesis Type|, University|, Year|.
+Author. â€œTitle.â€|Â Thesis Type|,Â University|,Â Year|.
