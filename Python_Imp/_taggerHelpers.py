@@ -56,3 +56,8 @@ def preprocess_line(line):
     line = line.replace(".\"", "\".")
     line = line.replace(".</i>", "</i>.")
     return line
+
+
+def italics_trimmer(value, seg):
+    val_end_index = value.find("</i>")
+    return value[:(val_end_index + 4)], seg[(seg.find("</i>") + 4):].strip()

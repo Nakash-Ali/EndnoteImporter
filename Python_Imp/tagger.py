@@ -1,6 +1,7 @@
 import _taggerBook
 import _taggerLib
 import _taggerReference
+import _taggerJournalArticle
 import os
 
 from _taggerHelpers import get_files, preprocess_line
@@ -8,6 +9,7 @@ from _taggerHelpers import get_files, preprocess_line
 
 @_taggerLib.add_functions_as_methods(_taggerBook.functions)
 @_taggerLib.add_functions_as_methods(_taggerReference.functions)
+@_taggerLib.add_functions_as_methods(_taggerJournalArticle.functions)
 class Reference:
     def __init__(self, line):
         self.line = line
@@ -27,6 +29,10 @@ class Reference:
             "translator": ["Y", None],
             "notes": ["Z", None],
             "book title": ["B", None],
+            "journal": ["J", None],
+            "volume": ["V", None],
+            "issue": ["N", None],
+            "reviewed item": ["*", None],
             "chapter": ["&", None]
         }
 
@@ -45,9 +51,6 @@ class Reference:
                 self.segments.pop(i + 1)
                 seg = self.segments[i]
 
-    def tag_journal_article(self):
-        self.error = True
-
     def tag_thesis_or_manuscript(self):
         self.error = True
 
@@ -63,17 +66,19 @@ def main():
                 ref.tag_ref_type()
                 references.append(ref)
 
+            successes = 0
             count = 0
             for i, reference in enumerate(references):
                 if not reference.error:
                     if reference.replace_author and i > 0:
                         reference.values["author"][1] = references[i - 1].values["author"][1]
                     reference.output(out_file)
-                    count += 1
+                    successes += 1
                 else:
                     err_file.write(reference.line)
+                count += 1
 
-            print(count)
+            print(successes, count)
 
 
 main()
