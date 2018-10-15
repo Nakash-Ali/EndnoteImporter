@@ -102,9 +102,7 @@ def tag_book(self, is_section):
             italics_detected += 1
         elif "</i>" in seg and segment_tag == "book title":
             segment_tag = "editor"
-            title_end_i = self.values["book title"][1].find("</i>")
-            self.values["book title"][1] = self.values["book title"][1][:(title_end_i + 4)]
-            page_seg = seg[(seg.find("</i>") + 4):].strip()
+            self.values["book title"][1], page_seg = helpers.italics_trimmer(self.values["book title"][1], seg)
             if len(page_seg) > 0 and page_seg[0] == ",":
                 self.values["pages"][1] = page_seg[1:].strip()
             else:
