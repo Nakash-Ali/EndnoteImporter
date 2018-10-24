@@ -41,10 +41,13 @@ def tag_journal_article(self):
                     self.error = True
                 self.values["issue"][1] = seg[:open_bracket_i].strip()
                 seg = seg[open_bracket_i:]
-                if seg[-1] == ")" and helpers.check_for_year([seg[1:-1]]):
+                if seg[-1] == ")" and helpers.check_for_year([seg[1:-1]], True):
                     self.values["year"][1] = seg[1:-1]
                 else:
                     self.error = True
+                    self.error_message = "Tagged as journal article but couldn't find year"
+                    print(self.line)
+                    break
                 segment_tag = "pages"
                 continue
             else:
