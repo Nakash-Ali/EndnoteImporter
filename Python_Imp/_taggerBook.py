@@ -67,10 +67,12 @@ def tag_book(self, is_section):
             segment_tag = "year"
 
         if segment_tag == "year":
-            if helpers.check_for_year([seg]):
+            if helpers.check_for_year([seg], False):
                 self.values[segment_tag][1] = seg.strip()
             else:
                 self.error = True
+                self.error_message = "Tagged as book section but couldn't find year" if is_section \
+                    else "Tagged as book but couldn't find year"
                 break
             segment_tag = "notes"
             continue

@@ -2,6 +2,7 @@ import _taggerBook
 import _taggerLib
 import _taggerReference
 import _taggerJournalArticle
+import _taggerThesis
 import os
 
 from _taggerHelpers import get_files, preprocess_line
@@ -10,12 +11,15 @@ from _taggerHelpers import get_files, preprocess_line
 @_taggerLib.add_functions_as_methods(_taggerBook.functions)
 @_taggerLib.add_functions_as_methods(_taggerReference.functions)
 @_taggerLib.add_functions_as_methods(_taggerJournalArticle.functions)
+@_taggerLib.add_functions_as_methods(_taggerThesis.functions)
+
 class Reference:
     def __init__(self, line):
         self.line = line
         self.segments = line.split(".")
         self.replace_author = False
         self.error = False
+        self.error_message = None
         self.type = ["0", None]
         self.values = {
             "author": ["A", None],
@@ -33,7 +37,8 @@ class Reference:
             "volume": ["V", None],
             "issue": ["N", None],
             "reviewed item": ["*", None],
-            "chapter": ["&", None]
+            "chapter": ["&", None],
+            "thesis type": ["9", None]
         }
 
         # Combine segments which are separated due to appreviations e.g. N. A. Babwany should be 1 segment
@@ -50,9 +55,6 @@ class Reference:
                 self.segments[i] += "." + self.segments[i + 1]
                 self.segments.pop(i + 1)
                 seg = self.segments[i]
-
-    def tag_thesis_or_manuscript(self):
-        self.error = True
 
 
 def main():
@@ -76,6 +78,8 @@ def main():
                     successes += 1
                 else:
                     err_file.write(reference.line)
+                    if reference.error_message is not None:
+                        print(reference.error_message)
                 count += 1
 
             print(successes, count)

@@ -1,5 +1,6 @@
 from _taggerGlobal import TAGGING_SYMBOL
-
+from _taggerGlobal import THESIS_DISS_INDICATORS
+import _taggerHelpers as helpers
 
 def tag_ref_type(self):
     title_in_quotes = False
@@ -27,9 +28,20 @@ def tag_ref_type(self):
         if italics_detected:
             self.tag_journal_article()
         else:
-            self.tag_thesis_or_manuscript()
+            has_thesis_indicators = False
+            for inds in THESIS_DISS_INDICATORS:
+                if helpers.check_for_string(inds, segments):
+                    has_thesis_indicators = True
+                    break
+
+            if has_thesis_indicators:
+                self.tag_thesis()
+            else:
+                self.error = True
+                self.error_message = "No Thesis Indicators Present"
     else:
         self.error = True
+        self.error_message = "Couldn't Match to Existing Ref Types"
 
 
 def output(self, file):

@@ -3,14 +3,33 @@ import os
 import re
 from datetime import date
 
-def check_for_year(segments):
+
+def check_for_string(str, segments):
+    for seg in segments:
+        if str in seg:
+            return True
+    return False
+
+
+def check_for_year(segments, is_strict):
     for seg in segments:
         seg = seg.strip()
         try:
+            years = []
             current_year = int(date.today().year)
-            year = int(seg[-4:])
-            if year > current_year:
+            years.append(int(seg[-4:]))
+
+            if is_strict and len(seg) > 4:
+                years.append(int(seg[:4]))
+
+            valid_years = True
+            for year in years:
+                if year > current_year:
+                    valid_years = False
+                    break
+            if not valid_years:
                 continue
+
         except:
             continue
         return True
@@ -54,6 +73,7 @@ def preprocess_line(line):
     line = line.replace("“", "\"")
     line = line.replace("”", "\"")
     line = line.replace(".\"", "\".")
+    line = line.replace(",\"", "\",")
     line = line.replace(".</i>", "</i>.")
     return line
 
