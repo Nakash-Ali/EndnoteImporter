@@ -12,6 +12,7 @@ def tag_book(self, is_section):
 
     segments = self.segments
     segment_tag = None
+    last_edit_seg_tag = None
     for i, seg in enumerate(segments):
         seg = seg.strip()
         if len(seg) == 0:
@@ -50,12 +51,18 @@ def tag_book(self, is_section):
             segment_tag = "translator"
 
         if segment_tag == "translator" and not bool(re.search("Translated .* by", seg)):
-            segment_tag = "place published"
+            segment_tag = "edition"
+
+        if segment_tag == "edition" and not seg[-2:] == "ed":
+            segment_tag = "number of volumes"
+
+        if segment_tag == "number of volumes" and not
 
         if segment_tag == "place published":
             colon_pos = seg.find(":")
             if colon_pos != -1:
                 self.values[segment_tag][1] = seg[:colon_pos].strip()
+                last_edit_seg_tag = segment_tag
                 seg = seg[colon_pos + 1:]
             segment_tag = "publisher"
 
@@ -63,12 +70,14 @@ def tag_book(self, is_section):
             comma_pos = seg.find(",")
             if comma_pos != -1:
                 self.values[segment_tag][1] = seg[:comma_pos].strip()
+                last_edit_seg_tag = segment_tag
                 seg = seg[comma_pos + 1:]
             segment_tag = "year"
 
         if segment_tag == "year":
             if helpers.check_for_year([seg], False):
                 self.values[segment_tag][1] = seg.strip()
+                last_edit_seg_tag = segment_tag
             else:
                 self.error = True
                 self.error_message = "Tagged as book section but couldn't find year" if is_section \
@@ -82,6 +91,7 @@ def tag_book(self, is_section):
                 self.values[segment_tag][1] += seg.strip()
             else:
                 self.values[segment_tag][1] = seg.strip()
+            last_edit_seg_tag = segment_tag
 
         if seg[-1] == type_of_quotes and is_section:
             if segment_tag == "title" or segment_tag == "chapter":
@@ -97,18 +107,15 @@ def tag_book(self, is_section):
             if segment_tag == "title" or segment_tag == "book title":
                 segment_tag = "editor"
             elif segment_tag == "translated title":
-                segment_tag = "place published"
+                segment_tag = "edition"
             else:
                 self.error = True
                 break
             italics_detected += 1
         elif "</i>" in seg and segment_tag == "book title":
+            self.values["book title"][1] = seg.strip()
+            last_edit_seg_tag = segment_tag
             segment_tag = "editor"
-            self.values["book title"][1], page_seg = helpers.italics_trimmer(self.values["book title"][1], seg)
-            if len(page_seg) > 0 and page_seg[0] == ",":
-                self.values["pages"][1] = page_seg[1:].strip()
-            else:
-                self.error = True
             italics_detected += 1
 
     # trim everything

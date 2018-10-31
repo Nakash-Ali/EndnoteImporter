@@ -5,7 +5,8 @@ import _taggerJournalArticle
 import _taggerThesis
 import os
 
-from _taggerHelpers import get_files, preprocess_line
+from _taggerHelpers import get_files, preprocess_line, tag_talics
+from _taggerGlobal import ITAL_TAGGED_FILE_LOC
 
 
 @_taggerLib.add_functions_as_methods(_taggerBook.functions)
@@ -58,7 +59,8 @@ class Reference:
 
 
 def main():
-    file_names = os.listdir("./input")
+    tag_talics()
+    file_names = os.listdir(ITAL_TAGGED_FILE_LOC)
     for file_name in file_names:
             file, out_file, err_file = get_files(file_name)
             references = []
