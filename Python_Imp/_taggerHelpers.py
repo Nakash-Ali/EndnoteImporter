@@ -88,6 +88,11 @@ def preprocess_line(line):
     return line
 
 
+def italics_trimmer(value, seg):
+    val_end_index = value.find("</i>")
+    return value[:(val_end_index + 4)], seg[(seg.find("</i>") + 4):].strip()
+
+
 def tag_talics():
     file_names = os.listdir(INPUT_FILE_LOC)
     for doc_file_name in file_names:

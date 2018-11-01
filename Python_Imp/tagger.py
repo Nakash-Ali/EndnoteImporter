@@ -39,7 +39,9 @@ class Reference:
             "issue": ["N", None],
             "reviewed item": ["*", None],
             "chapter": ["&", None],
-            "thesis type": ["9", None]
+            "thesis type": ["9", None],
+            "number of volumes": ["6", None],
+            "edition": ["7", None]
         }
 
         # Combine segments which are separated due to appreviations e.g. N. A. Babwany should be 1 segment

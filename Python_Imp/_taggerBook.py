@@ -4,7 +4,7 @@ import re
 
 
 def tag_book(self, is_section):
-    self.type[1] = "Book Section" if is_section else "Book"
+    self.type[1] = "Bksec" if is_section else "Book"
     author = ""
     italics_detected = 0
     quotes_detected = 0
@@ -40,25 +40,49 @@ def tag_book(self, is_section):
             else:
                 segment_tag = "translated title"
 
-        if seg[-3:] == " pp":
+        if seg[-3:] == " pp" and not is_section:
             self.values["pages"][1] = seg[:-3].strip()
             continue
-        elif seg[-2:] == " p":
+        elif seg[-2:] == " p" and not is_section:
             self.values["pages"][1] = seg[:-2].strip()
             continue
 
-        if segment_tag == "editor" and not bool(re.search("Edited .* by", seg)):
-            segment_tag = "translator"
+        if segment_tag == None:
+            if len(seg) > 9 and seg[:9].upper() == "EDITED BY":
+                segment_tag = "editor"
+            elif len(seg) > 13 and seg[:13].upper() == "TRANSLATED BY":
+                segment_tag = "translator"
+            elif len(seg) > 5 and seg[-5] == " vols":
+                segment_tag = "number of volumes"
+                seg = seg[:-5]
+            elif len(seg) > 3 and seg[-3] == " ed":
+                segment_tag = "edition"
+                seg = seg[:-3]
+            else:
+                if is_section and last_edit_seg_tag == "book title":
+                    segment_tag = "place published"
 
-        if segment_tag == "translator" and not bool(re.search("Translated .* by", seg)):
-            segment_tag = "edition"
-
-        if segment_tag == "edition" and not seg[-2:] == "ed":
-            segment_tag = "number of volumes"
-
-        if segment_tag == "number of volumes" and not
+                if not is_section and last_edit_seg_tag == "title":
+                    segment_tag = "place published"
 
         if segment_tag == "place published":
+
+            # if it is a book section, we need to go back and get pages
+            if is_section:
+                last_seg = self.values[last_edit_seg_tag][1]
+                last_seg_comma_i = last_seg.rfind(",")
+                if last_seg_comma_i == -1:
+                    self.error = True
+                    self.error_message = "Tagged as book section but couldn't find comma for pages"
+                else:
+                    self.values[last_edit_seg_tag][1] = last_seg[:last_seg_comma_i]
+                    page_string = last_seg[last_seg_comma_i + 1:]
+                    page_string_colon_i = page_string.find(":")
+                    if page_string_colon_i == -1:
+                        self.values["pages"][1] = page_string
+                    else:
+                        self.values["pages"][1] = page_string[page_string_colon_i + 1:]
+                        self.values["volume"][1] = page_string[:page_string_colon_i]
             colon_pos = seg.find(":")
             if colon_pos != -1:
                 self.values[segment_tag][1] = seg[:colon_pos].strip()
@@ -105,9 +129,9 @@ def tag_book(self, is_section):
 
         if seg[-4:] == "</i>":
             if segment_tag == "title" or segment_tag == "book title":
-                segment_tag = "editor"
+                segment_tag = None
             elif segment_tag == "translated title":
-                segment_tag = "edition"
+                segment_tag = None
             else:
                 self.error = True
                 break
@@ -115,7 +139,7 @@ def tag_book(self, is_section):
         elif "</i>" in seg and segment_tag == "book title":
             self.values["book title"][1] = seg.strip()
             last_edit_seg_tag = segment_tag
-            segment_tag = "editor"
+            segment_tag = "place published"
             italics_detected += 1
 
     # trim everything
