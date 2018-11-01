@@ -3,7 +3,7 @@ from _taggerGlobal import REPLACE_AUTHOR_STRING
 
 
 def tag_journal_article(self):
-    self.type[1] = "Journal Article"
+    self.type[1] = "Jouart"
     author = ""
     italics_detected = 0
     quotes_detected = 0

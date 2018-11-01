@@ -5,7 +5,8 @@ import _taggerJournalArticle
 import _taggerThesis
 import os
 
-from _taggerHelpers import get_files, preprocess_line
+from _taggerHelpers import get_files, preprocess_line, tag_talics
+from _taggerGlobal import ITAL_TAGGED_FILE_LOC
 
 
 @_taggerLib.add_functions_as_methods(_taggerBook.functions)
@@ -38,7 +39,9 @@ class Reference:
             "issue": ["N", None],
             "reviewed item": ["*", None],
             "chapter": ["&", None],
-            "thesis type": ["9", None]
+            "thesis type": ["9", None],
+            "number of volumes": ["6", None],
+            "edition": ["7", None]
         }
 
         # Combine segments which are separated due to appreviations e.g. N. A. Babwany should be 1 segment
@@ -58,7 +61,8 @@ class Reference:
 
 
 def main():
-    file_names = os.listdir("./input")
+    tag_talics()
+    file_names = os.listdir(ITAL_TAGGED_FILE_LOC)
     for file_name in file_names:
             file, out_file, err_file = get_files(file_name)
             references = []

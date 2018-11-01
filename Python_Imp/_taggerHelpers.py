@@ -1,7 +1,11 @@
 import errno
 import os
 import re
+import docx
+
 from datetime import date
+from _taggerGlobal import OUTPUT_FILE_LOC, OUTPUT_FILE_SUFFIX, ERROR_FILE_LOC, ERROR_FILE_SUFFIX, \
+    ITAL_TAGGED_FILE_LOC, MAX_LENGTH_FILENAME, INPUT_FILE_LOC, ITAL_TAGGED_FILE_SUFFIX
 
 
 def check_for_string(str, segments):
@@ -49,20 +53,26 @@ def get_author(segments, title_i):
     return author
 
 
+def create_file_if_none(filename):
+    if len(filename) > MAX_LENGTH_FILENAME:
+        filename = filename[-1 * MAX_LENGTH_FILENAME:]
+
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+    return filename
+
+
 def get_files(file_name):
     if file_name[-4:] == ".txt":
         file_prefix = file_name[:-4]
-        out_file_name = "./output/" + file_prefix + "_output.txt"
-        err_file_name = "./errors/" + file_prefix + "_errors.txt"
-        for path in [out_file_name, err_file_name]:
-            if not os.path.exists(os.path.dirname(path)):
-                try:
-                    os.makedirs(os.path.dirname(path))
-                except OSError as exc:  # Guard against race condition
-                    if exc.errno != errno.EEXIST:
-                        raise
+        out_file_name = create_file_if_none( OUTPUT_FILE_LOC + file_prefix + OUTPUT_FILE_SUFFIX )
+        err_file_name = create_file_if_none( ERROR_FILE_LOC + file_prefix + ERROR_FILE_SUFFIX )
 
-        file = open("./input/" + file_name, "r", encoding="utf8")
+        file = open(ITAL_TAGGED_FILE_LOC + file_name, "r", encoding="utf8")
         out_file = open(out_file_name, "w", encoding="utf8")
         err_file = open(err_file_name, "w", encoding="utf8")
         return (file, out_file, err_file)
@@ -81,3 +91,29 @@ def preprocess_line(line):
 def italics_trimmer(value, seg):
     val_end_index = value.find("</i>")
     return value[:(val_end_index + 4)], seg[(seg.find("</i>") + 4):].strip()
+
+
+def tag_talics():
+    file_names = os.listdir(INPUT_FILE_LOC)
+    for doc_file_name in file_names:
+        if doc_file_name[-5:] == ".docx":
+            file_prefix = doc_file_name[:-5]
+            ital_file_name = create_file_if_none(ITAL_TAGGED_FILE_LOC + file_prefix + ITAL_TAGGED_FILE_SUFFIX )
+            ital_out_file = open(ital_file_name, "w", encoding="utf8")
+
+            doc = docx.Document(INPUT_FILE_LOC + doc_file_name)
+            for para in doc.paragraphs:
+                if para.text.strip() == "":
+                    continue
+                runs = para.runs
+                text = ""
+                for i, run in enumerate(runs):
+                    if (i == 0 or not runs[i-1].italic) and (run.italic):
+                        text += "<i>"
+
+                    text += run.text
+
+                    if (i == len(runs) - 1 or not runs[i+1].italic) and (run.italic):
+                        text += "</i>"
+                ital_out_file.write(text + "\n")
+                    #print(run.text, run.italic)
