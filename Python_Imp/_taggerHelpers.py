@@ -68,7 +68,7 @@ def create_file_if_none(filename):
 
 def get_files(file_name):
     if file_name[-4:] == ".txt":
-        file_prefix = file_name[:-4]
+        file_prefix = file_name[:-16] if len(file_name) > 16 else file_name
         out_file_name = create_file_if_none( OUTPUT_FILE_LOC + file_prefix + OUTPUT_FILE_SUFFIX )
         err_file_name = create_file_if_none( ERROR_FILE_LOC + file_prefix + ERROR_FILE_SUFFIX )
 
