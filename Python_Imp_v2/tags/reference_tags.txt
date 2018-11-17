@@ -1,0 +1,4 @@
+Book: Book
+Book Section: Bksec
+Journal Article: Jouart
+Thesis: Thesis

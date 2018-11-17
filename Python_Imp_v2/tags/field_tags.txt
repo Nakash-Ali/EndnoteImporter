@@ -1,0 +1,19 @@
+Author: A
+Year: D
+Title: T
+Pages: P
+Place Published: C
+Publisher: I
+Translated Title: Q
+Editor: E
+Translator: Y
+Notes: Z
+Book Title: B
+Journal: J
+Volume: V
+Issue: N
+Reviewed Item: *
+Chapter: &
+Thesis Type: 9
+Number Of Volumes: 6
+Edition: 7

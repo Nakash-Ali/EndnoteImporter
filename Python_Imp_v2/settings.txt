@@ -1,0 +1,4 @@
+# specify the citation style in the line below
+# the styles folder should contain the definition of this style as a .txt file
+
+style = testFormat
