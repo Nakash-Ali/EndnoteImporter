@@ -5,4 +5,11 @@ Python_Imp/errors/
 Python_Imp/build/
 Python_Imp/venv/
 Python_Imp/__pycache__/
+Python_Imp_v2/.idea/
+Python_Imp_v2/output/
+Python_Imp_v2/setup.py
+Python_Imp_v2/errors/
+Python_Imp_v2/build/
+Python_Imp_v2/venv/
+Python_Imp_v2/__pycache__/
 .DS_Store
