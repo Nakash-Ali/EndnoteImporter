@@ -1,0 +1,11 @@
+Book Section:
+Author. “Title.”|. “Chapter.”| In Book Title|. Edited by Editor|. Translated by Translator|. “Translated Title.”|. Series Title| Series Volume|. Edition ed.|. Number of Volumes vols.|. Vol. Volume.|, Pages|. Place Published:| Publisher|, Year|. Reprint, Reprint Edition|. `Original publication,` Original Publication|.
+
+Book:
+Author. Title Prefix Title|. Edited by Editor|. Translated by Translator|. Translated Title|. Series Title| Series Volume|. Edition ed.|. Number of Volumes vols.|. Vol. Volume|. Place Published:| Publisher|, Date|, Year|. `doi:`DOI|. Reprint, Reprint Edition|. `Original publication,` Original Publication|.
+
+JA:
+Author. “Title.”|. Translated Title|. `Review of` Reviewed Item|. Journal Volume|, no. Issue| (|Date |Year|)|: Pages|.
+
+Thesis:
+Author. “Title.”| Thesis Type|, University|, Year|.

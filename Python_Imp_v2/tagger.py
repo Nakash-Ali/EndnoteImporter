@@ -1,5 +1,6 @@
 from helpers import GetInputFiles as file_getter
 from helpers.ParseBibFormat import replace_field_tags, replace_ci_tags, replace_opt_tags, replace_quote_tags
+from constants.StyleDefinitions import REF_TYPE_TAG
 import re
 
 
@@ -18,7 +19,12 @@ def convert_line_to_regex(line):
 # e.g. "Jouart" for Journal Articles and the values are arrays of regex strings which are considered valid matches of
 # that reference type (those regexes are built based on the bib style file passed in as an input file to this function)
 def parse_bib_format(file):
-    reg_ex = convert_line_to_regex(file.readline())  # convert into a reg_ex string
+    current_ref_type = None
+    for line in file.readlines():
+        if line[:len(REF_TYPE_TAG)] == REF_TYPE_TAG:
+            current_ref_type = line[len(REF_TYPE_TAG):]
+        else:
+            reg_ex = convert_line_to_regex(file.readline())  # convert into a reg_ex string
     return {}
 
 
@@ -28,6 +34,7 @@ def output():
 
 def main():
     input_file = file_getter.get_style_def_file()   # Get a reference to the styles file
+
     parse_dict = parse_bib_format(input_file)       # get the parse dictionary of this user defined format
 
     #res = re.match(reg_ex, ref)

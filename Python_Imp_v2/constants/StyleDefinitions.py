@@ -1,4 +1,5 @@
 # Constants related to the user's definition of styles which are placed in the styles folder
+REF_TYPE_TAG = "---ref_type:"
 FIELD_TAG_START = "<f>"
 FIELD_TAG_END = "</f>"
 CI_TAG_START = "<ci>"

@@ -82,8 +82,3 @@ def replace_quote_tags(exp):
     new_exp = exp.replace("<q>", "(?P<quote>[\'\"])")
     new_exp = new_exp.replace("</q>", "(?P=quote)")
     return new_exp
-
-
-
-#print(res.groupdict())
-#print(re.match(replace_ci_tag("<ci>Hello</ci> Bello <ci>Nak</ci> Bello <ci>Hello</ci>"), "HELLO Bello nak Bello hELlo").group())
