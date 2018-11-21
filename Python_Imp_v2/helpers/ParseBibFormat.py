@@ -1,6 +1,14 @@
-from helpers import GetInputFiles as file_getter
-import constants.StyleDefinitions as tags
+import constants.StyleDefinitions as style_def_tags
 import re
+
+
+# Escape the special characters in the tags used in this file because all the regExps will be escaped too
+CI_TAG_START = re.escape(style_def_tags.CI_TAG_START)
+CI_TAG_END = re.escape(style_def_tags.CI_TAG_END)
+FIELD_TAG_START = re.escape(style_def_tags.FIELD_TAG_START)
+FIELD_TAG_END = re.escape(style_def_tags.FIELD_TAG_END)
+OPT_TAG_START = re.escape(style_def_tags.OPT_TAG_START)
+OPT_TAG_END = re.escape(style_def_tags.OPT_TAG_END)
 
 
 # If a regEx contains <ci>test<ci>, this function replaces it with [Tt][Ee][Ss][Tt]
@@ -10,8 +18,8 @@ def replace_ci_tags(exp):
     # The sub pattern is used for re.sub
     group_name = "ci_text"
     sub_pattern = "{start_tag}(?P<{group_name}>((?!{start_tag}|{end_tag}).)*){end_tag}".format(
-        start_tag=tags.CI_TAG_START,
-        end_tag=tags.CI_TAG_END,
+        start_tag=CI_TAG_START,
+        end_tag=CI_TAG_END,
         group_name=group_name
     )
 
@@ -25,7 +33,7 @@ def replace_ci_tags(exp):
 
     # If there still are some <ci> tags, there was some missing corresponding tag or the order wasn't right
     # Else, all is well so we return the new expression
-    if tags.CI_TAG_START in exp or tags.CI_TAG_END in exp:
+    if CI_TAG_START in exp or CI_TAG_END in exp:
         raise Exception("Error parsing <ci> tags. Please check that for each <ci> tag, there is a corresponding </ci>"
                         " tag, there aren't any nested tags, and that their order is correct")
     else:
@@ -38,8 +46,8 @@ def replace_ci_tags(exp):
 def replace_field_tags(exp):
     group_name = "f_text"
     sub_pattern = "{start_tag}(?P<{group_name}>((?!{start_tag}|{end_tag}).)*){end_tag}".format(
-        start_tag=tags.FIELD_TAG_START,
-        end_tag=tags.FIELD_TAG_END,
+        start_tag=FIELD_TAG_START,
+        end_tag=FIELD_TAG_END,
         group_name=group_name
     )
 
@@ -55,34 +63,27 @@ def replace_field_tags(exp):
 
     # If there still are some <f> tags, there was some missing corresponding tag or the order wasn't right
     # Else, all is well so we return the new expression
-    if tags.FIELD_TAG_START in exp or tags.FIELD_TAG_END in exp:
+    if FIELD_TAG_START in exp or FIELD_TAG_END in exp:
         raise Exception("Error parsing <ci> tags. Please check that for each <ci> tag, there is a corresponding </ci>"
                         " tag, there aren't any nested tags, and that their order is correct")
     else:
         return exp
 
 
+# Replace optional tags with a regEx grouping such that the appearance of the enclosed text becomes optional
 def replace_opt_tags(exp):
-    new_exp = exp.replace(tags.OPT_TAG_START, "(")
-    new_exp = new_exp.repalce(tags.OPT_TAG_END, ")*")
+    new_exp = exp.replace(OPT_TAG_START, "(")
+    new_exp = new_exp.repalce(OPT_TAG_END, ")*")
     return new_exp
 
 
-# Get a reference to the styles file
-input_file = file_getter.get_style_def_file()
-reg_ex = input_file.readline()
+# Replace quote tags from the regEx so that the same quoting style (double vs single etc..) can be matched
+def replace_quote_tags(exp):
+    new_exp = exp.replace("<q>", "(?P<quote>[\'\"])")
+    new_exp = new_exp.replace("</q>", "(?P=quote)")
+    return new_exp
 
-#reg_ex = replace_last_field_tag(reg_ex)
-# reg_ex = reg_ex.replace("<f>", "(?P<")
-# reg_ex = reg_ex.replace("</f>", ">.+)")
 
-reg_ex = reg_ex.replace(".", "\.")
-reg_ex = reg_ex.replace("<q>", "(?P<quote>[\'\"])")
-reg_ex = reg_ex.replace("</q>", "(?P=quote)")
-print(reg_ex)
 
-test = "Nakash. \"My Life.\" In Our Lives."
-res = re.match(reg_ex, test)
 #print(res.groupdict())
-print(replace_field_tags("Hello <f>place published</f>."))
 #print(re.match(replace_ci_tag("<ci>Hello</ci> Bello <ci>Nak</ci> Bello <ci>Hello</ci>"), "HELLO Bello nak Bello hELlo").group())
