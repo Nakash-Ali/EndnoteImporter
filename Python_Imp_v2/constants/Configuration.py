@@ -11,3 +11,7 @@ SETTINGS_VAR_STYLE = "style"
 
 # File Types
 FILE_TYPE_STYLE = ".txt"
+
+
+OUTPUT_TAGGING_SYMBOL = "%"
+AUTHOR_REPLACE_SYMBOL = "___"

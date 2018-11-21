@@ -1,4 +1,5 @@
 from helpers import GetInputFiles as file_getter
+from constants.Configuration import OUTPUT_TAGGING_SYMBOL
 import constants.StyleDefinitions as tags
 import re
 
@@ -70,19 +71,35 @@ def replace_opt_tags(exp):
 
 # Get a reference to the styles file
 input_file = file_getter.get_style_def_file()
-reg_ex = input_file.readline()
+current_ref_type = None
+for line in input_file.readlines():
+    if line[:len(tags.REF_TYPE_TAG)] == tags.REF_TYPE_TAG:
+        current_ref_type = line[len(tags.REF_TYPE_TAG):]
+    else:
+        reg_ex = line.replace(".", "\.")
+        reg_ex = replace_ci_tags(reg_ex)
+        reg_ex = replace_field_tags(reg_ex)
+        reg_ex = replace_opt_tags(reg_ex)
+        reg_ex = reg_ex.replace("<q>", "(?P<quote>[\'\"])")
+        reg_ex = reg_ex.replace("</q>", "(?P=quote)")
 
 #reg_ex = replace_last_field_tag(reg_ex)
 # reg_ex = reg_ex.replace("<f>", "(?P<")
 # reg_ex = reg_ex.replace("</f>", ">.+)")
 
-reg_ex = reg_ex.replace(".", "\.")
-reg_ex = reg_ex.replace("<q>", "(?P<quote>[\'\"])")
-reg_ex = reg_ex.replace("</q>", "(?P=quote)")
-print(reg_ex)
 
 test = "Nakash. \"My Life.\" In Our Lives."
 res = re.match(reg_ex, test)
 #print(res.groupdict())
 print(replace_field_tags("Hello <f>place published</f>."))
-#print(re.match(replace_ci_tag("<ci>Hello</ci> Bello <ci>Nak</ci> Bello <ci>Hello</ci>"), "HELLO Bello nak Bello hELlo").group())
+
+
+def output_line_for_ref(groupdict, tag_dict, ref_type_tag):
+    output_str = "{ts}{rt_tag}".format(ts=OUTPUT_TAGGING_SYMBOL, rt_tag=ref_type_tag)
+    for key in groupdict.keys():
+        field_tag = "{ts}{tag}".format(ts=OUTPUT_TAGGING_SYMBOL, tag=tag_dict[key])
+        field_val = groupdict[key]
+        field_str = "{ft} {fv}\n".format(ft=field_tag, fv=field_val)
+        output_str += field_str
+    output_str += "\n"
+    return output_str
