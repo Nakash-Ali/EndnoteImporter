@@ -73,7 +73,7 @@ def replace_field_tags(exp):
 # Replace optional tags with a regEx grouping such that the appearance of the enclosed text becomes optional
 def replace_opt_tags(exp):
     new_exp = exp.replace(OPT_TAG_START, "(")
-    new_exp = new_exp.repalce(OPT_TAG_END, ")*")
+    new_exp = new_exp.replace(OPT_TAG_END, ")*")
     return new_exp
 
 

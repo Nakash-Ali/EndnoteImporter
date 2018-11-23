@@ -1,1 +1,2 @@
+---ref_type: Book
 <f>Author</f>. <q><f>Title</f>.</q> <ci>In</ci> <f>BookTitle</f>.

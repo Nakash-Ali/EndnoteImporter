@@ -10,6 +10,8 @@ Python_Imp_v2/output/
 Python_Imp_v2/setup.py
 Python_Imp_v2/errors/
 Python_Imp_v2/build/
+Python_Imp_v2/helpers/__pycache__/
 Python_Imp_v2/venv/
 Python_Imp_v2/__pycache__/
 .DS_Store
+*.pyc
