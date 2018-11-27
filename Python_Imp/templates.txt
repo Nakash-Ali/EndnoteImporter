@@ -1,11 +1,6 @@
-Book Section:
-Author. “Title.”|. “Chapter.”| In Book Title|. Edited by Editor|. Translated by Translator|. “Translated Title.”|. Series Title| Series Volume|. Edition ed.|. Number of Volumes vols.|. Vol. Volume.|, Pages|. Place Published:| Publisher|, Year|. Reprint, Reprint Edition|. `Original publication,` Original Publication|.
+Reference Type: Book Section. Bksec.
+<f>Author</f>.Â <q><f>Title</f>.<q>Â <o>Chap. <f>Chapter</f></o>Â <ci>in</ci>Â <i><rf>Book Title</rf></i><o>.Â EditedÂ byÂ <f>Editor</f></o><o>.Â TranslatedÂ byÂ <f>Translator</f></o><o>.Â <q><f>Translated Title</f>.<q></o><o>.Â <f>Edition</f>Â ed.</o><o>.Â <f>Number of Volumes</f>Â vols.</o>,Â <o><f>Volume</f>:</o><f>Pages<f/>.Â <f>Place Published</f>:Â <f>Publisher</f>,Â <f>Year</f>.
 
-Book:
-Author. Title Prefix Title|. Edited by Editor|. Translated by Translator|. Translated Title|. Series Title| Series Volume|. Edition ed.|. Number of Volumes vols.|. Vol. Volume|. Place Published:| Publisher|, Date|, Year|. `doi:`DOI|. Reprint, Reprint Edition|. `Original publication,` Original Publication|.
 
-JA:
-Author. “Title.”|. Translated Title|. `Review of` Reviewed Item|. Journal Volume|, no. Issue| (|Date |Year|)|: Pages|.
 
-Thesis:
-Author. “Title.”| Thesis Type|, University|, Year|.
+<f>Author</f>.Â <q><f>Title</f>.<q>Â <o>Chap. <f>Chapter</f></o>Â <ci>in</ci>Â <i><f>BookTitle</f></i><o>.Â EditedÂ byÂ <f>Editor</f></o><o>.Â TranslatedÂ byÂ <f>Translator</f></o><o>.Â <q><f>TranslatedTitle</f>.<q></o><o>.Â <f>Edition</f>Â ed.</o><o>.Â <f>NumberOfVolumes</f>Â vols.</o>,Â <o><f>Volume</f>:</o><f>Pages</f>.Â <f>PlacePublished</f>:Â <f>Publisher</f>,Â <f>Year</f>.

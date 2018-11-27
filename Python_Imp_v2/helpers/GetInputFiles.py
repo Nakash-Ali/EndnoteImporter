@@ -1,6 +1,8 @@
 import os
+from helpers.Output import create_file_if_none
 from constants.Configuration import FILE_LOC_STYLE, SETTINGS_VAR_STYLE, FILE_TYPE_STYLE, FILE_PATH_SETTINGS, \
-    FILE_PATH_FIELD_TAGS, FILE_PATH_REF_TAGS
+    FILE_PATH_FIELD_TAGS, FILE_PATH_REF_TAGS, FILE_LOC_OUTPUT, FILE_LOC_ERROR, FILE_SUFFIX_OUTPUT, FILE_SUFFIX_ERROR, \
+    FILE_LOC_ITAL
 
 
 # Returns the file which contains the bib style definition, based on the settings file
@@ -45,6 +47,15 @@ def get_field_tags_file():
     return field_tags_file
 
 
+def get_field_tags_dict():
+    raw_field_dict = file_to_dictionary(get_field_tags_file())
+    new_dict = {}
+    for field in raw_field_dict.keys():
+        new_key = field.strip().replace(" ", "_")
+        new_dict[new_key] = raw_field_dict[field]
+    return new_dict
+
+
 def get_reference_tags_file():
     try:
         reference_tags_file = open(FILE_PATH_REF_TAGS, "r")
@@ -62,3 +73,15 @@ def file_to_dictionary(file, key_val_splitter=":"):
         else:
             out_dict[elements[0]] = elements[1]
     return out_dict
+
+
+def get_bib_files(file_name):
+    if file_name[-4:] == ".txt":
+        file_prefix = file_name[:-16] if len(file_name) > 16 else file_name
+        out_file_name = create_file_if_none( FILE_LOC_OUTPUT + file_prefix + FILE_SUFFIX_OUTPUT )
+        err_file_name = create_file_if_none( FILE_LOC_ERROR + file_prefix + FILE_SUFFIX_ERROR )
+
+        file = open(FILE_LOC_ITAL + file_name, "r", encoding="utf8")
+        out_file = open(out_file_name, "w", encoding="utf8")
+        err_file = open(err_file_name, "w", encoding="utf8")
+        return (file, out_file, err_file)

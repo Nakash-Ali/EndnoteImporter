@@ -1,20 +1,19 @@
-Reference Type: 0
 Author: A
 Year: D
 Title: T
 Pages: P
-Place Published: C
+PlacePublished: C
 Publisher: I
-Translated Title: Q
+TranslatedTitle: Q
 Editor: E
 Translator: Y
 Notes: Z
-Book Title: B
+BookTitle: B
 Journal: J
 Volume: V
 Issue: N
-Reviewed Item: *
+ReviewedItem: *
 Chapter: &
-Thesis Type: 9
-Number Of Volumes: 6
+ThesisType: 9
+NumberOfVolumes: 6
 Edition: 7
