@@ -8,9 +8,6 @@ from constants.Configuration import FILE_LOC_ITAL
 import re
 import os
 
-test_string = "___. “Fatimid.” In <i>The Dictionary of Art</i>. 34 vols. Edited by Jane Turner, 10:832-833. New York: Grove, 1996."
-test_string = prep_helpers.preprocess_line(test_string)
-
 
 class Reference:
     def __init__(self, line):
@@ -36,9 +33,12 @@ class Reference:
         elif n > 1:
             self.error = True
             self.error_message = "CONFLICT: The reference matches more than one of the reference type formats"
+            return 1
         else:
             self.reftype_tag = match_objects[0][0]
             self.groupdict = match_objects[0][1].groupdict()
+
+        return 0
 
 
 # Given a user defined format for any reference type as a string input, this function converts (and returns)
@@ -49,8 +49,6 @@ def convert_line_to_regex(line):
     new_exp = replace_ci_tags(new_exp)
     new_exp = replace_opt_tags(new_exp)
     new_exp = replace_quote_tags(new_exp)
-    print(new_exp)
-    print(re.match(new_exp, test_string))
     return new_exp
 
 
@@ -64,7 +62,9 @@ def parse_bib_format(file, REF_TAG_DICT):
         # If it is a line starting with "---ref_type:", extract the ref_type from that line and add it as a new key
         # in the parse dictionary
         line = line.strip()
-        if line[:len(REF_TYPE_TAG)] == REF_TYPE_TAG:
+        if len(line) == 0 or line[0] == "#":
+            continue
+        elif line[:len(REF_TYPE_TAG)] == REF_TYPE_TAG:
             ref_type_str = line[len(REF_TYPE_TAG):]
             ref_type_str = ref_type_str.strip()
             if REF_TAG_DICT[ref_type_str] is not None:
@@ -80,12 +80,11 @@ def parse_bib_format(file, REF_TAG_DICT):
             if current_ref_type is not None:
                 parse_dict[current_ref_type].append(str(reg_ex))
                 x.append(str(reg_ex))
-            print(x)
-            print( parse_dict[current_ref_type])
     return parse_dict
 
 
 def tag_all_input_bibs(PARSE_DICT, FIELD_TAG_DICT):
+    x = 0
     prep_helpers.tag_talics()
     file_names = os.listdir(FILE_LOC_ITAL)
     for file_name in file_names:
@@ -94,7 +93,7 @@ def tag_all_input_bibs(PARSE_DICT, FIELD_TAG_DICT):
 
             for i, line in enumerate(file.readlines()):
                 ref = Reference(prep_helpers.preprocess_line(line))
-                ref.tag_ref_type(PARSE_DICT)
+                x += ref.tag_ref_type(PARSE_DICT)
                 references.append(ref)
 
             successes = 0
@@ -109,7 +108,7 @@ def tag_all_input_bibs(PARSE_DICT, FIELD_TAG_DICT):
                     #     print(reference.error_message)
                 count += 1
 
-            print(successes, count)
+            print(successes, count, x)
 
 
 def main():
@@ -118,12 +117,7 @@ def main():
     FIELD_TAG_DICT = file_getter.get_field_tags_dict()
     PARSE_DICT = parse_bib_format(input_file, REF_TAG_DICT)       # get the parse dictionary of this user defined format
     tag_all_input_bibs(PARSE_DICT, FIELD_TAG_DICT)
+    print(PARSE_DICT)
 
 
 main()
-pattern = "(?P<Author>.+)\\.\\s\"(?P<Title>.+)\\.\"\\s[Ii][Nn]\\s<i>(?P<BookTitle>.+)</i>\\.\\s(?P<NumberOfVolumes>.+)\\svols\\.\\sEdited\\sby\\s(?P<Editor>.+),\\s(?P<Pages>.+)\\.\\s(?P<PlacePublished>.+):\\s(?P<Publisher>.+),\\s(?P<Year>.+)\\."
-print(pattern)
-print(re.match(pattern, test_string))
-
-test = "My Name Is Nakash"
-print(re.sub(r"\s", "\\s", test))

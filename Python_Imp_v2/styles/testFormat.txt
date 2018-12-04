@@ -1,3 +1,8 @@
 ---ref_type: Book Section
-<f>Author</f>. <q><f>Title</f>.<q> <ci>in</ci> <i><f>BookTitle</f></i>. <f>NumberOfVolumes</f> vols. Edited by <f>Editor</f>, <f>Pages</f>. <f>PlacePublished</f>: <f>Publisher</f>, <f>Year</f>.
-<f>Author</f>. <q><f>Title</f>.<q> <o>Chap. <f>Chapter</f></o> <ci>in</ci> <i><f>BookTitle</f></i><o>. Edited by <f>Editor</f></o><o>. Translated by <f>Translator</f></o><o>. <q><f>TranslatedTitle</f>.<q></o><o>. <f>Edition</f> ed.</o><o>. <f>NumberOfVolumes</f> vols.</o>, <o><f>Volume</f>:</o><f>Pages</f>. <f>PlacePublished</f>: <f>Publisher</f>, <f>Year</f>.
+<f>Author</f>. <q><f>Title</f>.<q> <o>Chap. <f>Chapter</f> </o><ci>in</ci> <i><f>BookTitle</f></i><o>. <f>Edition</f> ed.</o><o><o>.</o> <f>NumberOfVolumes</f> vols.</o><o><o>.</o> Edited by <f>Editor</f></o><o>,</o> <o><f>Volume</f>:</o><f>Pages</f>. <f>PlacePublished</f>: <f>Publisher</f>, <f>Year</f>. <o> <f>Notes</f></o>
+
+---ref_type: Book
+<f>Author</f>. <i><f>Title</f></i>. <f>PlacePublished</f>: <f>Publisher</f>, <f>Year</f>.<o> <f>Pages</f> pp.</o><o> <f>Notes</f></o>
+
+---ref_type: Journal Article
+<f>Author</f>. <q><f>Title</f>.<q> <i><f>Journal</f></i><o>(<f>PlacePublished</f>)</o> <o><f>Volume</f>:</o><f>Issue</f> (<f>Year</f>): <f>Pages</f>.<o> <f>Notes</f></o>

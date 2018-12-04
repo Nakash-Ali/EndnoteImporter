@@ -12,5 +12,5 @@ QUOTE_TAG_END = "</q>"
 OPT_TAG_START = "<o>"
 OPT_TAG_END = "</o>"
 
-ESCAPE_CHAR_LIST = ".\\[]{}()*+?^$|"
+ESCAPE_CHAR_LIST = ".[]{}()*+?^$|"
 

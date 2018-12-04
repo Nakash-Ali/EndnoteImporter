@@ -10,10 +10,11 @@ def output_line_for_ref(groupdict, tag_dict, reftype_tag):
                                                    rt_symbol=REF_TYPE_OUT_SYMBOL,
                                                    rt_tag=reftype_tag)
     for key in groupdict.keys():
-        field_tag = "{ts}{tag}".format(ts=OUTPUT_TAGGING_SYMBOL, tag=tag_dict[key].strip())
-        field_val = groupdict[key]
-        field_str = "{ft} {fv}\n".format(ft=field_tag, fv=field_val)
-        output_str += field_str
+        if groupdict[key] is not None and groupdict[key].strip() != "":
+            field_tag = "{ts}{tag}".format(ts=OUTPUT_TAGGING_SYMBOL, tag=tag_dict[key].strip())
+            field_val = groupdict[key]
+            field_str = "{ft} {fv}\n".format(ft=field_tag, fv=field_val)
+            output_str += field_str
     output_str += "\n"
     return output_str
 

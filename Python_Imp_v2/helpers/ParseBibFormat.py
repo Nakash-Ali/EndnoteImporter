@@ -3,12 +3,11 @@ import re
 
 
 def escape_regex(exp):
-    new_exp = re.sub(r"\s", "\\s", exp)
-    print(new_exp)
+    new_exp = exp.replace("\\", "\\\\")
     for c in style_def_tags.ESCAPE_CHAR_LIST:
-        new_exp.replace(c, "\\{c}".format(c=c))
+        new_exp = new_exp.replace(c, "\\{c}".format(c=c))
+    new_exp = re.sub(r"\s", "(\\s)", new_exp)
     return new_exp
-
 
 # Escape the special characters in the tags used in this file because all the regExps will be escaped too
 CI_TAG_START = escape_regex(style_def_tags.CI_TAG_START)
@@ -69,7 +68,7 @@ def replace_field_tags(exp):
         if field_group_name != re.escape(field_group_name):
             raise Exception("Error: only alphanumeric characters without spaces can be used as field names when"
                             " defining bibliography format")
-        new_text = "(?P<{field_group_name}>.+)".format(
+        new_text = "(?P<{field_group_name}>.+?)".format(
             field_group_name=field_group_name
         )
         return new_text
@@ -88,7 +87,7 @@ def replace_field_tags(exp):
 # Replace optional tags with a regEx grouping such that the appearance of the enclosed text becomes optional
 def replace_opt_tags(exp):
     new_exp = exp.replace(OPT_TAG_START, "(")
-    new_exp = new_exp.replace(OPT_TAG_END, ")*")
+    new_exp = new_exp.replace(OPT_TAG_END, ")?")
     return new_exp
 
 
