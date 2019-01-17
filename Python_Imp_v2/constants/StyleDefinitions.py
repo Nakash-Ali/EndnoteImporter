@@ -14,3 +14,4 @@ OPT_TAG_END = "</o>"
 
 ESCAPE_CHAR_LIST = ".[]{}()*+?^$|"
 
+FIELD_META_NAME_KEY = "name"

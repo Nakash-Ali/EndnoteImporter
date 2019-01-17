@@ -4,7 +4,7 @@ from helpers.ParseBibFormat import replace_field_tags, replace_ci_tags, replace_
 from helpers import PreprocessInputBib as prep_helpers
 from helpers.Output import output_line_for_ref
 from constants.StyleDefinitions import REF_TYPE_TAG
-from constants.Configuration import FILE_LOC_ITAL
+from constants.Configuration import FILE_LOC_ITAL, SETTINGS_VAR_AUTHOR_REPLACE
 import re
 import os
 
@@ -33,12 +33,9 @@ class Reference:
         elif n > 1:
             self.error = True
             self.error_message = "CONFLICT: The reference matches more than one of the reference type formats"
-            return 1
         else:
             self.reftype_tag = match_objects[0][0]
             self.groupdict = match_objects[0][1].groupdict()
-
-        return 0
 
 
 # Given a user defined format for any reference type as a string input, this function converts (and returns)
@@ -84,16 +81,31 @@ def parse_bib_format(file, REF_TAG_DICT):
 
 
 def tag_all_input_bibs(PARSE_DICT, FIELD_TAG_DICT):
-    x = 0
     prep_helpers.tag_talics()
     file_names = os.listdir(FILE_LOC_ITAL)
     for file_name in file_names:
             file, out_file, err_file = file_getter.get_bib_files(file_name)
             references = []
 
-            for i, line in enumerate(file.readlines()):
+            lines = file.readlines()
+            for i, line in enumerate(lines):
                 ref = Reference(prep_helpers.preprocess_line(line))
-                x += ref.tag_ref_type(PARSE_DICT)
+                ref.tag_ref_type(PARSE_DICT)
+
+                # Author Replace
+                if i > 0:
+                    settings_dict = file_getter.file_to_dictionary(
+                        file_getter.get_settings_file(),
+                        key_val_splitter="=")
+                    author_replace_symbol = settings_dict[SETTINGS_VAR_AUTHOR_REPLACE]
+                    if len(references) >= i  and \
+                            ref.groupdict is not None and \
+                            references[-1].groupdict is not None and \
+                            "Author" in ref.groupdict and \
+                            ref.groupdict["Author"] == author_replace_symbol and \
+                            "Author" in references[-1].groupdict:
+                        ref.groupdict["Author"] = references[-1].groupdict["Author"]
+
                 references.append(ref)
 
             successes = 0
@@ -108,7 +120,7 @@ def tag_all_input_bibs(PARSE_DICT, FIELD_TAG_DICT):
                     #     print(reference.error_message)
                 count += 1
 
-            print(successes, count, x)
+            print(successes, count)
 
 
 def main():

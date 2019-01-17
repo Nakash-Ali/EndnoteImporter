@@ -5,13 +5,18 @@ from constants.Configuration import FILE_LOC_STYLE, SETTINGS_VAR_STYLE, FILE_TYP
     FILE_LOC_ITAL
 
 
-# Returns the file which contains the bib style definition, based on the settings file
-def get_style_def_file():
-    # Get the bib format from the settings file
+def get_settings_file():
     try:
         settings_file = open(FILE_PATH_SETTINGS, "r")
     except:
         raise Exception("Error: Couldn't find a settings.txt file")
+    return settings_file
+
+
+# Returns the file which contains the bib style definition, based on the settings file
+def get_style_def_file():
+    # Get the bib format from the settings file
+    settings_file = get_settings_file()
     bib_format = None
     style_file = None
     for line in settings_file.readlines():
@@ -67,11 +72,14 @@ def get_reference_tags_file():
 def file_to_dictionary(file, key_val_splitter=":"):
     out_dict = {}
     for line in file.readlines():
-        elements = line.split(key_val_splitter, 1)
-        if len(elements) < 2:
-            raise Exception("Error: Couldn't convert {} to a Python dictionary.".format(file.name))
-        else:
-            out_dict[elements[0]] = elements[1]
+        line = line.strip()
+        # ignore commented lines
+        if len(line) > 0 and line[0] != "#":
+            elements = line.split(key_val_splitter, 1)
+            if len(elements) < 2:
+                raise Exception("Error: Couldn't convert {} to a Python dictionary.".format(file.name))
+            else:
+                out_dict[elements[0].strip()] = elements[1].strip()
     return out_dict
 
 

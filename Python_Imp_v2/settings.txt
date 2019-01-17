@@ -2,3 +2,4 @@
 # the styles folder should contain the definition of this style as a .txt file
 
 style = testFormat
+author_replace_symbol = ___

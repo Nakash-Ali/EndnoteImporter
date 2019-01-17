@@ -1,8 +1,15 @@
 ---ref_type: Book Section
-<f>Author</f>. <q><f>Title</f>.<q> <o>Chap. <f>Chapter</f> </o><ci>in</ci> <i><f>BookTitle</f></i><o>. <f>Edition</f> ed.</o><o><o>.</o> <f>NumberOfVolumes</f> vols.</o><o><o>.</o> Edited by <f>Editor</f></o><o>,</o> <o><f>Volume</f>:</o><f>Pages</f>. <f>PlacePublished</f>: <f>Publisher</f>, <f>Year</f>. <o> <f>Notes</f></o>
+<f name=Author></f>. <q><f name=Title></f>.<q> <o>Chap. <f name=Chapter></f> </o><ci>in</ci> <i><f name=BookTitle></f></i><o>. <f name=Edition></f> ed.</o><o><o>.</o> <f name=NumberOfVolumes></f> vols.</o><o><o>.</o> Edited by <f name=Editor></f></o><o>,</o> <o><f name=Volume></f>:</o><f name=Pages></f>. <f name=PlacePublished></f>: <f name=Publisher></f>, <f name=Year></f>. <o> <f name=Notes></f></o>
 
 ---ref_type: Book
-<f>Author</f>. <i><f>Title</f></i>. <f>PlacePublished</f>: <f>Publisher</f>, <f>Year</f>.<o> <f>Pages</f> pp.</o><o> <f>Notes</f></o>
+<f name=Author></f>. <i><f name=Title></f></i>. <f name=PlacePublished></f>: <f name=Publisher></f>, <f name=Year></f>.<o> <f name=Pages></f> pp.</o><o> <f name=Notes></f></o>
 
 ---ref_type: Journal Article
-<f>Author</f>. <q><f>Title</f>.<q> <i><f>Journal</f></i><o>(<f>PlacePublished</f>)</o> <o><f>Volume</f>:</o><f>Issue</f> (<f>Year</f>): <f>Pages</f>.<o> <f>Notes</f></o>
+<f name=Author></f>. <q><f name=Title></f>.<q> <i><f name=Journal></f></i><o>(<f name=PlacePublished></f>)</o> <o><f name=Volume></f>:</o><f name=Issue></f> (<f name=Year></f>): <f name=Pages></f>.<o> <f name=Notes></f></o>
+
+---ref_type: Thesis
+<f name=Author></f>. <q><f name=Title></f>.<q> <f name=ThesisType>thesis</f>, <f name=Publisher></f>, <f name=Year></f>.<o> <f name=Pages></f> pp.</o><o> <f name=Notes></f></o>
+<f name=Author></f>. <q><f name=Title></f>.<q> <f name=ThesisType>diss.</f>, <f name=Publisher></f>, <f name=Year></f>.<o> <f name=Pages></f> pp.</o><o> <f name=Notes></f></o>
+<f name=Author></f>. <q><f name=Title></f>.<q> <f name=ThesisType>Monografia de licenciatura</f>, <f name=Publisher></f>, <f name=Year></f>.<o> <f name=Pages></f> pp.</o><o> <f name=Notes></f></o>
+<f name=Author></f>. <q><f name=Title></f>.<q> <f name=ThesisType>Thése</f>, <f name=Publisher></f>, <f name=Year></f>.<o> <f name=Pages></f> pp.</o><o> <f name=Notes></f></o>
+<f name=Author></f>. <q><f name=Title></f>.<q> <f name=ThesisType>Thèse</f>, <f name=Publisher></f>, <f name=Year></f>.<o> <f name=Pages></f> pp.</o><o> <f name=Notes></f></o>

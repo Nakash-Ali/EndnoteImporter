@@ -17,6 +17,7 @@ MAX_LENGTH_FILENAME = 250
 
 # Settings File Variables
 SETTINGS_VAR_STYLE = "style"
+SETTINGS_VAR_AUTHOR_REPLACE = "author_replace_symbol"
 
 
 # File Types
